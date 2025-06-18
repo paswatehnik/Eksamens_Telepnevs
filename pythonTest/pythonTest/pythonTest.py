@@ -2,11 +2,20 @@
 from tkinter import messagebox
 import random
 
+PRIMARY_COLOR = "#2E3F4F"
+BG_COLOR = "#FFC8A8"
+ACCENT_COLOR = "#4CAF50"
+TEXT_COLOR = "#212121"
+FONT_MAIN = ("Arial", 14)
+FONT_TITLE = ("Arial", 20, "bold")
+FONT_SUB = ("Arial", 12)
+
 class TestaAplikacija:
     def __init__(self, sakne):
         self.sakne = sakne
         self.sakne.title("Cikls ar priekšnosacījumu - Tests")
         self.sakne.geometry("800x600")
+        self.sakne.configure(bg=BG_COLOR)
         
         self.jautajumi = [
             {
@@ -67,23 +76,35 @@ class TestaAplikacija:
 
         self.uzstadit_sakuma_ekranu()
     
+    def iziet(self):
+        for elements in self.sakne.winfo_children():
+            elements.destroy()
+
     def uzstadit_sakuma_ekranu(self):
         self.iziet()
-        
-        tk.Label(self.sakne, text="Cikls ar priekšnosacījumu - Tests", 
-                font=("Arial", 20)).pack(pady=20)
-        
-        tk.Button(self.sakne, text="Sākt testu", command=self.sakt_testu,
-                 height=2, width=20).pack(pady=10)
-        tk.Button(self.sakne, text="Informācija", command=self.paradit_informaciju,
-                 height=2, width=20).pack(pady=10)
-        tk.Button(self.sakne, text="Iziet", command=self.sakne.destroy,
-                 height=2, width=20).pack(pady=10)
-    
+        tk.Label(self.sakne, text="Cikls ar priekšnosacījumu - Tests", font=FONT_TITLE, bg=BG_COLOR, fg=PRIMARY_COLOR).pack(pady=30)
+
+        self._izveidot_pogu("Sākt testu", self.sakt_testu)
+        self._izveidot_pogu("Informācija", self.paradit_informaciju)
+        self._izveidot_pogu("Iziet", self.sakne.destroy)
+
+    def _izveidot_pogu(self, teksts, komanda):
+        return tk.Button(self.sakne, text=teksts, command=komanda,
+                         bg=PRIMARY_COLOR, fg="white", font=FONT_MAIN,
+                         activebackground=ACCENT_COLOR, activeforeground="white",
+                         width=20, height=2, bd=0).pack(pady=10)
+
     def paradit_informaciju(self):
-        informacija = "Testa nosacījumi..."
+        informacija = (
+            "Šis elektroniskais tests izstrādāts par tēmu \"Cikls ar priekšnosacījumu programmēšanas valodā Python\".\n\n"
+            "- Tests satur 10 jautājumus (izstrāde notiek programmēšanas valodā Python).\n"
+            "- Katram jautājumam ir 4 atbilžu varianti, no kuriem pareizi ir 2 vai 3 varianti.\n"
+            "- Jautājumi tiek attēloti nejaušā secībā.\n"
+            "- Lietotājs uz katru jautājumu atbild 1 reizi un uzreiz saņem atgriezenisko saiti – vai atbilde ir pareiza vai nepareiza.\n"
+            "- Testa beigās tiek parādīts, cik jautājumu atbildēti pareizi un tiek izdrukāts saraksts ar tiem jautājumiem, kuros tika kļūdīts."
+        )
         messagebox.showinfo("Informācija", informacija)
-    
+
     def sakt_testu(self):
         random.shuffle(self.jautajumi)
         self.tekstais_jautajums = 0
@@ -99,17 +120,23 @@ class TestaAplikacija:
             return
 
         jautajums = self.jautajumi[self.tekstais_jautajums]
-        tk.Label(self.sakne, text=f"Jautājums {self.tekstais_jautajums + 1}/{len(self.jautajumi)}", font=("Arial", 14)).pack(pady=10)
-        tk.Label(self.sakne, text=jautajums["jautajums"], wraplength=750, justify="left", font=("Arial", 12)).pack(pady=10, padx=20)
+        tk.Label(self.sakne, text=f"Jautājums {self.tekstais_jautajums + 1}/{len(self.jautajumi)}",
+                 font=FONT_SUB, bg=BG_COLOR, fg=TEXT_COLOR).pack(pady=10)
+
+        tk.Label(self.sakne, text=jautajums["jautajums"],
+                 font=FONT_MAIN, bg=BG_COLOR, fg=TEXT_COLOR,
+                 wraplength=750, justify="left").pack(pady=10, padx=20)
 
         self.atbildes_var = []
         for i, atbilde in enumerate(jautajums["atbildes"]):
             var = tk.IntVar()
             self.atbildes_var.append(var)
-            tk.Checkbutton(self.sakne, text=atbilde, variable=var, font=("Arial", 11)).pack(pady=5, padx=20, anchor="w")
+            tk.Checkbutton(self.sakne, text=atbilde, variable=var,
+                           font=FONT_SUB, bg=BG_COLOR, fg=TEXT_COLOR,
+                           selectcolor=ACCENT_COLOR, anchor="w", padx=20).pack(anchor="w", padx=40, pady=2)
 
-        tk.Button(self.sakne, text="Iesniegt", command=self.parbaudit_atbildi, height=2, width=15).pack(pady=20)
-    
+        self._izveidot_pogu("Iesniegt", self.parbaudit_atbildi)
+
     def parbaudit_atbildi(self):
         atbildes = [i for i, var in enumerate(self.atbildes_var) if var.get() == 1]
 
@@ -130,23 +157,18 @@ class TestaAplikacija:
 
     def paradit_rezultatu(self):
         self.iziet()
-        tk.Label(self.sakne, text=f"Tests pabeigts! Pareizo atbilžu skaits: {self.pareizas_atbildes}/{len(self.jautajumi)}", font=("Arial", 16)).pack(pady=20)
-    
+        tk.Label(self.sakne, text=f"Tests pabeigts! Pareizo atbilžu skaits: {self.pareizas_atbildes}/{len(self.jautajumi)}",
+                 font=FONT_TITLE, bg=BG_COLOR, fg=PRIMARY_COLOR).pack(pady=30)
+
         if self.nepareizi_jautajumi:
-            tk.Label(self.sakne, text="Nepareizi atbildētie jautājumi:", font=("Arial", 12)).pack(pady=10)
+            tk.Label(self.sakne, text="Nepareizi atbildētie jautājumi:", font=FONT_MAIN,
+                     bg=BG_COLOR, fg=TEXT_COLOR).pack(pady=10)
             for jaut in self.nepareizi_jautajumi:
-                tk.Label(self.sakne, text=jaut, wraplength=750, justify="left", font=("Arial", 11)).pack(pady=5, padx=20)
-        tk.Button(self.sakne, text="Atgriezties uz sākumu", command=self.uzstadit_sakuma_ekranu, height=2, width=20).pack(pady=10)
-        tk.Button(self.sakne, text="Sākt testu no jauna", command=self.sakt_testu, height=2, width=20).pack(pady=10)
+                tk.Label(self.sakne, text="• " + jaut, font=FONT_SUB,
+                         bg=BG_COLOR, fg=TEXT_COLOR, wraplength=750, justify="left").pack(anchor="w", padx=40, pady=2)
 
-
-    def iziet(self):
-        for elements in self.sakne.winfo_children():
-            elements.destroy()
-
-    def iziet(self):
-        for elements in self.sakne.winfo_children():
-            elements.destroy()
+        self._izveidot_pogu("Atgriezties uz sākumu", self.uzstadit_sakuma_ekranu)
+        self._izveidot_pogu("Sākt testu no jauna", self.sakt_testu)
 
 if __name__ == "__main__":
     sakne = tk.Tk()
