@@ -131,11 +131,14 @@ class TestaAplikacija:
     def paradit_rezultatu(self):
         self.iziet()
         tk.Label(self.sakne, text=f"Tests pabeigts! Pareizo atbilžu skaits: {self.pareizas_atbildes}/{len(self.jautajumi)}", font=("Arial", 16)).pack(pady=20)
+    
         if self.nepareizi_jautajumi:
             tk.Label(self.sakne, text="Nepareizi atbildētie jautājumi:", font=("Arial", 12)).pack(pady=10)
             for jaut in self.nepareizi_jautajumi:
                 tk.Label(self.sakne, text=jaut, wraplength=750, justify="left", font=("Arial", 11)).pack(pady=5, padx=20)
-        tk.Button(self.sakne, text="Atgriezties uz sākumu", command=self.uzstadit_sakuma_ekranu, height=2, width=20).pack(pady=20)
+        tk.Button(self.sakne, text="Atgriezties uz sākumu", command=self.uzstadit_sakuma_ekranu, height=2, width=20).pack(pady=10)
+        tk.Button(self.sakne, text="Sākt testu no jauna", command=self.sakt_testu, height=2, width=20).pack(pady=10)
+
 
     def iziet(self):
         for elements in self.sakne.winfo_children():
