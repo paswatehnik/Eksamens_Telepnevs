@@ -49,6 +49,9 @@ class TestaAplikacija:
     def paradit_jautajumu(self):
         self.iziet()
 
+        if self.tekstais_jautajums >= len(self.jautajumi):
+            self.paradit_rezultatu()
+            return
 
         jautajums = self.jautajumi[self.tekstais_jautajums]
         tk.Label(self.sakne, text=f"Jautājums {self.tekstais_jautajums + 1}/{len(self.jautajumi)}", font=("Arial", 14)).pack(pady=10)
@@ -79,6 +82,19 @@ class TestaAplikacija:
 
         self.tekstais_jautajums += 1
         self.paradit_jautajumu()
+
+    def paradit_rezultatu(self):
+        self.iziet()
+        tk.Label(self.sakne, text=f"Tests pabeigts! Pareizo atbilžu skaits: {self.pareizas_atbildes}/{len(self.jautajumi)}", font=("Arial", 16)).pack(pady=20)
+        if self.nepareizi_jautajumi:
+            tk.Label(self.sakne, text="Nepareizi atbildētie jautājumi:", font=("Arial", 12)).pack(pady=10)
+            for jaut in self.nepareizi_jautajumi:
+                tk.Label(self.sakne, text=jaut, wraplength=750, justify="left", font=("Arial", 11)).pack(pady=5, padx=20)
+        tk.Button(self.sakne, text="Atgriezties uz sākumu", command=self.uzstadit_sakuma_ekranu, height=2, width=20).pack(pady=20)
+
+    def iziet(self):
+        for elements in self.sakne.winfo_children():
+            elements.destroy()
 
     def iziet(self):
         for elements in self.sakne.winfo_children():
