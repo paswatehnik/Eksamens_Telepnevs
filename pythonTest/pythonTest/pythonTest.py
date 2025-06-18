@@ -48,27 +48,38 @@ class TestaAplikacija:
 
     def paradit_jautajumu(self):
         self.iziet()
-        
-        if self.tekstais_jautajums >= len(self.jautajumi):
-            self.paradit_rezultatus()
-            return
-            
+
+
         jautajums = self.jautajumi[self.tekstais_jautajums]
-        
-        tk.Label(self.sakne, text=f"Jautājums {self.tekstais_jautajums + 1}/{len(self.jautajumi)}", 
-                font=("Arial", 14)).pack(pady=10)
-        
-        tk.Label(self.sakne, text=jautajums["jautajums"], 
-                wraplength=750, justify="left", font=("Arial", 12)).pack(pady=10, padx=20)
-        
-        self.atlase = tk.IntVar(value=-1)
+        tk.Label(self.sakne, text=f"Jautājums {self.tekstais_jautajums + 1}/{len(self.jautajumi)}", font=("Arial", 14)).pack(pady=10)
+        tk.Label(self.sakne, text=jautajums["jautajums"], wraplength=750, justify="left", font=("Arial", 12)).pack(pady=10, padx=20)
+
+        self.atbildes_var = []
         for i, atbilde in enumerate(jautajums["atbildes"]):
-            tk.Radiobutton(self.sakne, text=atbilde, variable=self.atlase, 
-                         value=i, font=("Arial", 11)).pack(pady=5, padx=20, anchor="w")
-        
-        tk.Button(self.sakne, text="Iesniegt",
-                 height=2, width=15).pack(pady=20)
+            var = tk.IntVar()
+            self.atbildes_var.append(var)
+            tk.Checkbutton(self.sakne, text=atbilde, variable=var, font=("Arial", 11)).pack(pady=5, padx=20, anchor="w")
+
+        tk.Button(self.sakne, text="Iesniegt", command=self.parbaudit_atbildi, height=2, width=15).pack(pady=20)
     
+    def parbaudit_atbildi(self):
+        atbildes = [i for i, var in enumerate(self.atbildes_var) if var.get() == 1]
+
+        if not atbildes:
+            messagebox.showwarning("Brīdinājums", "Izvēlieties vismaz vienu atbildi!")
+            return
+
+        pareizas = set(self.jautajumi[self.tekstais_jautajums]["pareizas_atbildes"])
+        if set(atbildes) == pareizas:
+            self.pareizas_atbildes += 1
+            messagebox.showinfo("Rezultāts", "Pareizi!")
+        else:
+            self.nepareizi_jautajumi.append(self.jautajumi[self.tekstais_jautajums]["jautajums"])
+            messagebox.showinfo("Rezultāts", "Nepareizi.")
+
+        self.tekstais_jautajums += 1
+        self.paradit_jautajumu()
+
     def iziet(self):
         for elements in self.sakne.winfo_children():
             elements.destroy()
