@@ -12,8 +12,53 @@ class TestaAplikacija:
             {
                 "jautajums": "Kāda ir while cikla sintakse?",
                 "atbildes": ["a) while x > 0:", "b) for x in range(10):", 
-                           "c) while (x > 0)", "d) while True:"],
+                               "c) while (x > 0)", "d) while True:"],
                 "pareizas_atbildes": [0, 3]
+            },
+            {
+                "jautajums": "Kuri no šiem ir loģiskie operatori Python valodā?",
+                "atbildes": ["a) and", "b) or", "c) plus", "d) not"],
+                "pareizas_atbildes": [0, 1, 3]
+            },
+            {
+                "jautajums": "Kā var iziet no while cikla?",
+                "atbildes": ["a) exit()", "b) break", "c) continue", "d) return"],
+                "pareizas_atbildes": [1, 3]
+            },
+            {
+                "jautajums": "Kādi ir nosacījumi, kad while cikls neizpildīsies?",
+                "atbildes": ["a) Nosacījums ir False", "b) Nosacījums ir 0", "c) Nosacījums ir True", "d) Nosacījums ir None"],
+                "pareizas_atbildes": [0, 1, 3]
+            },
+            {
+                "jautajums": "Kādi mainīgie tiek uzskatīti par False Python valodā?",
+                "atbildes": ["a) 0", "b) \"\" (tukša virkne)", "c) [1]", "d) [] (tukšs saraksts)"],
+                "pareizas_atbildes": [0, 1, 3]
+            },
+            {
+                "jautajums": "Kādi ir iespējamie cikla veidi Python valodā?",
+                "atbildes": ["a) while", "b) repeat", "c) for", "d) loop"],
+                "pareizas_atbildes": [0, 2]
+            },
+            {
+                "jautajums": "Kāds ir pareizs veids, kā izvairīties no bezgalīga cikla while?",
+                "atbildes": ["a) Palielināt mainīgo cikla iekšienē", "b) Neiekļaut nosacījumu", "c) Iekļaut break", "d) Lietot for ciklu"],
+                "pareizas_atbildes": [0, 2]
+            },
+            {
+                "jautajums": "Kāda ir funkcija 'continue' ciklā?",
+                "atbildes": ["a) Pārtrauc programmu", "b) Pārlec uz nākamo cikla iterāciju", "c) Iziet no cikla", "d) Izlaiž turpmāko kodu ciklā un turpina ar nākamo iterāciju"],
+                "pareizas_atbildes": [1, 3]
+            },
+            {
+                "jautajums": "Kas ir patiesi par break un continue?",
+                "atbildes": ["a) break iziet no cikla", "b) continue izpilda kodu pēc cikla", "c) break un continue var tikt lietoti for un while", "d) continue izlaiž nākamo cikla iterāciju"],
+                "pareizas_atbildes": [0, 2, 3]
+            },
+            {
+                "jautajums": "Kas no zemāk minētajām ir pareizi izmantojot while ciklu?",
+                "atbildes": ["a) Nepieciešams nosacījums", "b) Var lietot else ar while", "c) Cikls vienmēr izpildās vismaz vienu reizi", "d) Nosacījums jāmaina cikla iekšienē"],
+                "pareizas_atbildes": [0, 1, 3]
             }
         ]
         self.tekstais_jautajums = 0
