@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>2b1c1d55-de4e-4b0c-8974-8f766fda552d</ProjectGuid>
+    <ProjectGuid>53863ed5-7289-4b15-9996-c8e6cc2e87bf</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>praktiskaisUzdevums2.py</StartupFile>
     <SearchPath>
